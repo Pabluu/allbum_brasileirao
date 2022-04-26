@@ -1,0 +1,15 @@
+posicao
+    descricao: string: 50
+
+
+clubes
+    nome: string: 100
+    escudo: string: 100
+
+
+jogador
+    nome
+    data_nascimento
+    clube_atual
+    posicao
+    
