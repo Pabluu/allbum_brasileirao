@@ -1,15 +1,18 @@
 posicao
+    id
     descricao: string: 50
 
 
 clubes
+    id
     nome: string: 100
     escudo: string: 100
 
 
 jogador
-    nome
-    data_nascimento
-    clube_atual
-    posicao
+    id
+    nome 100
+    data_nascimento Date
+    clube_atual foreignkey
+    posicao foreignkey
     

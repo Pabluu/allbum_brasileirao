@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Posicao;
 use Illuminate\Http\Request;
 
 class PosicaoController extends Controller
@@ -10,7 +11,13 @@ class PosicaoController extends Controller
 
     public function index()
     {
-        return view('posicao.index');
+        $posicao = new Posicao();
+        $posicoes = Posicao::All();
+        return view(
+            'posicao.index',
+            ["posicao" => $posicao,
+            'posicoes' => $posicoes]
+        );
     }
 
     /**
@@ -31,7 +38,13 @@ class PosicaoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->get('id' != '')){
+            $pos = Posicao::Find($request->get('id'));
+        }else{
+            $pos = new Posicao();
+        }
+
+        // $pos->descricao = 
     }
 
     /**
