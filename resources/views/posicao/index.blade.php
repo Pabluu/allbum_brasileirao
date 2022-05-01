@@ -5,12 +5,12 @@
 <form action="/posicao" method="post" class='row'>
     <div class="form-group col-10">
         <label class='' for="">Descrição</label>
-        <input type="text" class='form-control'>
+        <input type="text" class='form-control' name='descricao' value='{{$pos->descricao}}'>
     </div>
 
     <div class="form-group col-2">
         @csrf
-        <input type="hidden" id='id' name='id' value='{{$pos->id'}}>
+        <input type="hidden" id='id' name='id' value='{{$pos->id}}'>
         <button submit='submit' class='btn btn-success' style='margin-top: 23px;'>
             <i class='bi bi-save'></i> Salvar
         </button>
@@ -22,7 +22,7 @@
 @section('tabela_posicao')
 <h1>Tabela de Posições de Jogadores</h1>
 
-<table class="table table-striped">
+<table class="table table-striped table-hover">
     <colgroup>
         <col width='400'>
         <col width='100'>
@@ -38,11 +38,25 @@
     </thead>
 
     <tbody>
+        @foreach($posicoes as $pos)
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{$pos->descricao}}</td>
+
+            <td><a href='/posicao/{{$pos->id}}/edit' class='btn btn-warning'>
+                    <i class="bi bi-pencil-square"></i>Editar
+                </a></td>
+
+            <td>
+                <form action='/posicao/{{$pos->id}}' method='POST'>
+                    @csrf
+                    <input type='hidden' name='_method' value='DELETE'>
+                    <button type="submit" class='btn btn-danger'>
+                        <i class="bi bi-trash"></i>Excluir
+                    </button>
+                </form>
+            </td>
         </tr>
+        @endforeach
     </tbody>
 
 </table>

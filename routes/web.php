@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClubeController;
+use App\Http\Controllers\JogadorController;
 use App\Http\Controllers\PosicaoController;
 
 /*
@@ -15,7 +17,9 @@ use App\Http\Controllers\PosicaoController;
 */
 
 Route::Resources([
-    "posicao" => PosicaoController::class
+    'clube' => ClubeController::class,
+    'jogador' => JogadorController::class,
+    'posicao' => PosicaoController::class
 ]);
 
 Route::get('/', function () {

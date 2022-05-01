@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Posicao;
 use Illuminate\Http\Request;
 
-class PosicaoController extends Controller
+class JogadorController extends Controller
 {
-
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $pos = new Posicao();
-        $posicoes = Posicao::All();
-        return view(
-            'posicao.index',
-            [
-                "pos" => $pos,
-                'posicoes' => $posicoes
-            ]
-        );
+        //
     }
 
     /**
@@ -40,19 +34,7 @@ class PosicaoController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->get('descricao') != null) {
-            if ($request->get('id') != '') {
-                $pos = Posicao::Find($request->get('id'));
-            } else {
-                $pos = new Posicao();
-            }
-
-            $pos->descricao = $request->get('descricao');
-
-            $pos->save();
-        }
-
-        return redirect('/posicao');
+        //
     }
 
     /**
@@ -74,13 +56,7 @@ class PosicaoController extends Controller
      */
     public function edit($id)
     {
-        $pos = Posicao::Find($id);
-        $posicoes = Posicao::All();
-
-        return view('posicao.index', [
-            'pos' => $pos,
-            'posicoes' => $posicoes
-        ]);
+        //
     }
 
     /**
@@ -103,7 +79,6 @@ class PosicaoController extends Controller
      */
     public function destroy($id)
     {
-        Posicao::Destroy($id);
-        return redirect('posicao');
+        //
     }
 }

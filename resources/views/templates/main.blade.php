@@ -10,7 +10,7 @@
 
     <style>
         .navbar {
-            background-image: linear-gradient(to right, #eb5600, #823000, #000000);
+            background-color: #333333;
         }
 
         .nav-link {
