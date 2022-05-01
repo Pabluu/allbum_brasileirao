@@ -8,21 +8,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('jogador', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 100);
             $table->date('data_nasc');
-            $table->foreignIdFor(Posicao::class);
-            $table->foreign('posicao_id')->references('id')->on('posicao');
-            $table->foreignIdFor(Clubes::class);
-            $table->foreign('clube_id')->references('id')->on('clubes');
+
+            $table->foreignId('posicao_id')->constrained('posicao');
+            $table->foreignId('clube_id')->constrained('clube');
+
             $table->timestamps();
         });
     }
