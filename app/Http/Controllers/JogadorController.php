@@ -34,7 +34,7 @@ class JogadorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

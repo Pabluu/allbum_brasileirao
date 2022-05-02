@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Clubes;
 
 class ClubeController extends Controller
 {
@@ -13,7 +14,16 @@ class ClubeController extends Controller
      */
     public function index()
     {
-        //
+        $clube = new Clubes();
+        $clubes = Clubes::All();
+
+        return view(
+            'clube.index',
+            [
+                'clube' => $clube,
+                'clubes' => $clubes
+            ]
+        );
     }
 
     /**
@@ -34,7 +44,38 @@ class ClubeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'nome' => 'required|unique:clube|max:100',
+                'escudo' => 'required|mimes:jpg,png'
+            ],
+            [
+                'nome.required' =>  "O campo nome é obrigatório",
+                'nome.unique' => 'Clube já cadastrado',
+                'nome.max' => "O campo nome aceita no máximo :max caracteres",
+
+                'escudo.required' => 'Escolha uma foto do seu clube',
+                'escudo.mimes' => 'Imagens suportadas :mimes'
+            ]
+        );
+
+        // verificando se o id já existe, se não, iremos criar um novo
+        if ($request->get('id') != '') {
+            $clube = Clubes::Find($request->get('id'));
+        } else {
+            $clube = new Clubes();
+        }
+
+        $clube->nome = $request->get('nome');
+
+        // verificando se foi enviado uma foto
+        if ($request->file('escudo') != null) {
+            $clube->escudo = $request->file('escudo')->store('public/clube-images');
+        }
+
+        $clube->save();
+
+        return redirect('/clube');
     }
 
     /**
@@ -79,6 +120,7 @@ class ClubeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Clubes::Destroy($id);
+        return redirect('/clube');
     }
 }

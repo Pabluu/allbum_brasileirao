@@ -1,11 +1,11 @@
 posicao
     id
-    descricao: string: 50
+    descricao: string: 50: unique
 
 
 clubes
     id
-    nome: string: 100
+    nome: string: 100 unique
     escudo: string: 100
 
 

@@ -40,17 +40,27 @@ class PosicaoController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->get('descricao') != null) {
-            if ($request->get('id') != '') {
-                $pos = Posicao::Find($request->get('id'));
-            } else {
-                $pos = new Posicao();
-            }
 
-            $pos->descricao = $request->get('descricao');
+        $request->validate(
+            ['descricao' => 'required|unique:posicao|max:50'],
+            [
+                'descricao.required' => 'Insira a descrição',
+                'descricao.unique' => 'Posição já cadastrada',
+                'descricao.max' => 'O campo descricao aceita no máximo :max caracteres'
+            ]
 
-            $pos->save();
+        );
+
+        if ($request->get('id') != '') {
+            $pos = Posicao::Find($request->get('id'));
+        } else {
+            $pos = new Posicao();
         }
+
+        $pos->descricao = $request->get('descricao');
+
+        $pos->save();
+
 
         return redirect('/posicao');
     }

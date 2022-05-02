@@ -28,7 +28,7 @@
         </nav>
 
         @yield("formulario")
-        @yield('tabela_posicao')
+        @yield('tabela')
     </div>
 </body>
 

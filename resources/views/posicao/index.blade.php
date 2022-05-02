@@ -5,7 +5,11 @@
 <form action="/posicao" method="post" class='row'>
     <div class="form-group col-10">
         <label class='' for="">Descrição</label>
-        <input type="text" class='form-control' name='descricao' value='{{$pos->descricao}}'>
+        <input type="text" @class(['form-control', 'is-invalid' => ($errors->first('descricao') != '')]) name='descricao' value='{{$pos->descricao}}'>
+
+        <div class="invalid-feedback">
+            {{$errors->first('descricao')}}
+        </div>
     </div>
 
     <div class="form-group col-2">
@@ -19,7 +23,7 @@
 </form>
 @endsection
 
-@section('tabela_posicao')
+@section('tabela')
 <h1>Tabela de Posições de Jogadores</h1>
 
 <table class="table table-striped table-hover">
