@@ -97,7 +97,13 @@ class ClubeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $clube = Clubes::Find($id);
+        $clubes = Clubes::All();
+
+        return view('clube.index', [
+            'clube' => $clube,
+            'clubes' => $clubes
+        ]);
     }
 
     /**

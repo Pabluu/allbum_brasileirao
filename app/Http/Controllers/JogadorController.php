@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clubes;
+use App\Models\Jogador;
+use App\Models\Posicao;
 use Illuminate\Http\Request;
 
 class JogadorController extends Controller
@@ -13,7 +16,17 @@ class JogadorController extends Controller
      */
     public function index()
     {
-        //
+        $jogador = new Jogador();
+        $jogadores = Jogador::All();
+        $clubes = Clubes::All();
+        $posicoes = Posicao::All();
+
+        return view('jogador.index', [
+            'jogador' => $jogador,
+            'jogadores' => $jogadores,
+            'clubes' => $clubes,
+            'posicoes' => $posicoes
+        ]);
     }
 
     /**
@@ -34,7 +47,23 @@ class JogadorController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'nome' => 'required|max:100',
+            'dataNasc' => 'required',
+            'clbAtual' => 'required',
+            'posicao' => 'required'
+        ],
+        [
+            'nome.required' => 'Insira o nome do jogador',
+            'nome.max' => 'Quantidade máxima de letras :max',
+
+            'dataNasc.required' => 'Insira a Data de Nascimento do jogador',
+
+            'clbAtual.required' => 'Seleciona o clube',
+
+            'posicao.required' => 'Seleciona a posição do jogador'
+        ]
+        );
     }
 
     /**
