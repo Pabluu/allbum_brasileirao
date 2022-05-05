@@ -47,23 +47,38 @@ class JogadorController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nome' => 'required|max:100',
-            'dataNasc' => 'required',
-            'clbAtual' => 'required',
-            'posicao' => 'required'
-        ],
-        [
-            'nome.required' => 'Insira o nome do jogador',
-            'nome.max' => 'Quantidade máxima de letras :max',
+        $request->validate(
+            [
+                'nome' => 'required|max:100',
+                'dataNasc' => 'required',
+                'clbAtual' => 'required',
+                'posicao' => 'required'
+            ],
+            [
+                'nome.required' => 'Insira o nome do jogador',
+                'nome.max' => 'Quantidade máxima de letras :max',
 
-            'dataNasc.required' => 'Insira a Data de Nascimento do jogador',
+                'dataNasc.required' => 'Insira a Data de Nascimento do jogador',
 
-            'clbAtual.required' => 'Seleciona o clube',
+                'clbAtual.required' => 'Selecione o clube',
 
-            'posicao.required' => 'Seleciona a posição do jogador'
-        ]
+                'posicao.required' => 'Seleciona a posição do jogador'
+            ]
         );
+
+        if ($request->get('id') != '') {
+            $jog = Jogador::Find($request->get('id'));
+        } else {
+            $jog = new Jogador();
+        }
+        
+        $jog->nome = $request->get('nome');
+        $jog->data_nasc = $request->get('dataNasc');
+        $jog->clube_id = $request->get('clube_id');
+        $jog->posicao_id = $request->get('pos_id');
+
+        $jog->save();
+        return redirect('/jogador');
     }
 
     /**

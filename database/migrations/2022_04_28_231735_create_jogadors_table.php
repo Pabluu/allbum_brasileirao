@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string('nome', 100);
             $table->date('data_nasc');
 
-            $table->foreignId('posicao_id')->constrained('posicao');
             $table->foreignId('clube_id')->constrained('clube');
+            $table->foreignId('posicao_id')->constrained('posicao');
 
             $table->timestamps();
         });

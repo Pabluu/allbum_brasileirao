@@ -12,7 +12,7 @@ clubes
 jogador
     id
     nome 100
-    data_nascimento Date
-    clube_atual foreignkey
-    posicao foreignkey
+    data_nasc Date
+    clube_id foreignkey
+    posicao_id foreignkey
     

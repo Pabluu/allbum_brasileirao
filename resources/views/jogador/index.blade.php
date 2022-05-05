@@ -16,7 +16,7 @@
 
     <div class='form-group col-5'>
         <label for="dataNasc">Data de Nascimento</label>
-        <input type="file" id='dataNasc' name='dataNasc' @class([ "form-control" , "is-invalid"=> ($errors->first("dataNasc") != "")])>
+        <input type="date" id='dataNasc' name='dataNasc' @class([ "form-control" , "is-invalid"=> ($errors->first("dataNasc") != "")])>
 
         <div class="invalid-feedback">
             {{ $errors->first("dataNasc") }}
@@ -24,23 +24,38 @@
     </div>
 
 
-    <div class='form-group col-5 flex-column'>
-        <label for="clbAtual">Clube Atual</label>
-        <select>
-            <option value="">-----</option>
+    <div class='form-group col-5'>
+        <label for="clube_id">Clube Atual</label>
+        <select name='clube_id' @class([ "form-select" , "is-invalid"=> ($errors->first("clube_id") != "")])>
+            <option value=""></option>
             @foreach($clubes as $clube)
-            <option value="{{$clube->nome}}"></option>
+            <option value='{{ $clube->id }}' @if ($clube->id == $jogador->clube_atual) selected @endif>{{$clube->nome}}</option>
             @endforeach
         </select>
 
         <div class="invalid-feedback">
-            {{ $errors->first("clbAtual") }}
+            {{ $errors->first("clube_id") }}
         </div>
     </div>
 
+    <div class='form-group col-5'>
+        <label for="pos_id">Posição Atual</label>
+        <select name='pos_id' @class([ "form-select" , "is-invalid"=> ($errors->first("pos_id") != "")])>
+            <option value=""></option>
+            @foreach($posicoes as $pos)
+            <option value='{{ $pos->id }}' @if ($pos->id == $jogador->clube_id) selected @endif>{{$pos->descricao}}</option>
+            @endforeach
+        </select>
+
+        <div class="invalid-feedback">
+            {{ $errors->first("pos_id") }}
+        </div>
+    </div>
+
+
     <div class="form-group col-2">
         @csrf
-        <input type="hidden" id="id" name="id" value="{{ $clube->id }}" />
+        <input type="hidden" id="id" name="id" value="{{$jogador->id}}" />
         <button type="submit" class="btn btn-sm btn-success" style="margin-top: 29px;">
             <i class="bi bi-save"></i> Salvar
         </button>
@@ -49,4 +64,51 @@
 @endsection
 
 @section("tabela")
+<br />
+<h1>Lista de Clubes</h1>
+<table class="table table-striped table-hover">
+    <colgroup>
+        <col width="400">
+        <col width="200">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th>Clube</th>
+            <th>Posição</th>
+            <th>Editar</th>
+            <th>Excluir</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($clubes as $clube)
+        <tr>
+            <td>{{ $clube->nome }}</td>
+            <td>
+                
+            </td>
+
+            <td>
+                <a href="/clube/{{ $clube->id }}/edit" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> Editar
+                </a>
+            </td>
+            <td>
+                <form method="POST" action="/clube/{{ $clube->id }}">
+                    @csrf
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="button" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Excluir
+                    </button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 @endsection
