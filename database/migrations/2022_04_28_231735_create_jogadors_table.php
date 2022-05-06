@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Clubes;
-use App\Models\Posicao;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 100);
             $table->date('data_nasc');
+            $table->boolean('checagem')->default(0);
 
             $table->foreignId('clube_id')->constrained('clube');
             $table->foreignId('posicao_id')->constrained('posicao');

@@ -45,14 +45,15 @@ class JogadorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $request->validate(
             [
                 'nome' => 'required|max:100',
                 'dataNasc' => 'required',
-                'clbAtual' => 'required',
-                'posicao' => 'required'
+                'clube_id' => 'required',
+                'posicao_id' => 'required'
             ],
             [
                 'nome.required' => 'Insira o nome do jogador',
@@ -60,24 +61,36 @@ class JogadorController extends Controller
 
                 'dataNasc.required' => 'Insira a Data de Nascimento do jogador',
 
-                'clbAtual.required' => 'Selecione o clube',
+                'clube_id.required' => 'Selecione o clube',
 
-                'posicao.required' => 'Seleciona a posição do jogador'
+                'posicao_id.required' => 'Seleciona a posição do jogador'
             ]
         );
 
         if ($request->get('id') != '') {
-            $jog = Jogador::Find($request->get('id'));
+            $jogador = Jogador::Find($request->get('id'));
         } else {
-            $jog = new Jogador();
+            $jogador = new Jogador();
+        }
+
+        $jogador->nome = $request->get('nome');
+
+        if($request->get('checagem') == 'on'){
+            $jogador->checagem = true;
+        }else{
+            $jogador->checagem = false;
         }
         
-        $jog->nome = $request->get('nome');
-        $jog->data_nasc = $request->get('dataNasc');
-        $jog->clube_id = $request->get('clube_id');
-        $jog->posicao_id = $request->get('pos_id');
 
-        $jog->save();
+        if ($request->get('dataNasc') < \Carbon\Carbon::now()) {
+            $jogador->data_nasc = $request->get('dataNasc');
+            $jogador->clube_id = $request->get('clube_id');
+            $jogador->posicao_id = $request->get('posicao_id');
+
+            $jogador->save();
+        }
+
+
         return redirect('/jogador');
     }
 
@@ -100,7 +113,22 @@ class JogadorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jogador = jogador::Find($id);
+        $jogadores = jogador::All();
+        $posicao = Posicao::Find($id);
+        $posicoes = Posicao::All();
+        $clube = Clubes::All();
+        $clubes = Clubes::All();
+
+
+        return view("jogador.index", [
+            "jogador" => $jogador,
+            "jogadores" => $jogadores,
+            "posicao" => $posicao,
+            "posicoes" => $posicoes,
+            "clube" => $clube,
+            "clubes" => $clubes
+        ]);
     }
 
     /**
@@ -110,9 +138,11 @@ class JogadorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        $jogador = Jogador::Find($id);
+        $jogador->save();
+        return redirect("/jogador");
     }
 
     /**
@@ -123,6 +153,7 @@ class JogadorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Jogador::Destroy($id);
+        return redirect("/jogador");
     }
 }

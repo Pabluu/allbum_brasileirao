@@ -2,7 +2,7 @@
 @section("titulo_aba", 'Cadastro de Clubes')
 
 @section('formulario')
-<form action="/clube" class='row' method='POST' action='/clube' enctype='multipart/form-data'>
+<form action="/clube" class='row' method='POST' enctype='multipart/form-data'>
     <div class='form-group col-5'>
         <label for="nome">Nome do Clube</label>
         <input type="text" name='nome' @class([ "form-control" , "is-invalid"=> ($errors->first("nome") != "")])
